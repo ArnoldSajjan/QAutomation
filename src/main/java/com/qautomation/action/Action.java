@@ -14,7 +14,6 @@ import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -46,37 +45,37 @@ public class Action extends Base {
 		}
 	}
 
-	public void implicitWait(WebDriver driver, int timeout) {
+	public void implicitWait( int timeout) {
 
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
-
-	}
-
-	public void pageLoadTimeOut(WebDriver driver, int timeout) {
-
-		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
+		getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
 
 	}
 
-	public void switchToFrameByName(WebDriver driver, String Name) {
+	public void pageLoadTimeOut( int timeout) {
+
+		getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
+
+	}
+
+	public void switchToFrameByName( String Name) {
 
 		switchTodefaultPage();
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(30));
 		wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.name(Name)));
 
 	}
 
-	public boolean isDisplayed(WebDriver driver, WebElement locatorname) {
+	public boolean isDisplayed( WebElement locatorname) {
 
-		elementWait(driver, locatorname);
+		elementWait(locatorname);
 
 		return locatorname.isDisplayed();
 	}
 
-	public void click(WebDriver driver, WebElement locatorname) {
+	public void click( WebElement locatorname) {
 
 		try {
-			elementWait(driver, locatorname);
+			elementWait(locatorname);
 			locatorname.click();
 		} catch (Exception e) {
 			System.out.print("Could not Click the WebElement : " + locatorname);
@@ -103,17 +102,17 @@ public class Action extends Base {
 		}
 	}
 
-	public void type(WebDriver driver, WebElement locatorname, String userinput) {
+	public void type( WebElement locatorname, String userinput) {
 
-		elementWait(driver , locatorname);
+		elementWait(locatorname);
 		locatorname.sendKeys(userinput);
 
 	}
 
-	public void elementWait(WebDriver driver,WebElement ele) {
+	public void elementWait(WebElement ele) {
 
 		try {
-			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
+			WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(50));
 			wait.until(ExpectedConditions.visibilityOfAllElements(ele));
 		} catch (Exception e) {
 			System.out.print("Could not find the WebElement : " + ele);
@@ -128,19 +127,19 @@ public class Action extends Base {
 
 	}
 
-	public void selectFromDropDownListByName(WebDriver driver, WebElement ele, String visibleTest) {
+	public void selectFromDropDownListByName( WebElement ele, String visibleTest) {
 
-		elementWait(driver, ele);
+		elementWait(ele);
 		Select dropDown = new Select(ele);
 		dropDown.deselectAll();
 		dropDown.selectByVisibleText(visibleTest);
 
 	}
 
-	public String takeScreenshot(WebDriver driver , String methodName) {
+	public String takeScreenshot(String methodName) {
 		String fileName = getScreenShotName(methodName);
 		String path = System.getProperty("user.dir") + "\\ScreenShot\\" + fileName;
-		TakesScreenshot takesScreenshot = (TakesScreenshot) driver;
+		TakesScreenshot takesScreenshot = (TakesScreenshot) getDriver();
 		File source = takesScreenshot.getScreenshotAs(OutputType.FILE);
 		try {
 			FileUtils.copyFile(source, new File(path));
@@ -170,8 +169,8 @@ public class Action extends Base {
 		}
 	}
 
-	public void reportLoggerwithElemnetScreenshot(WebDriver driver, String message, String status, WebElement ele) {
-		elementWait(driver, ele);
+	public void reportLoggerwithElemnetScreenshot( String message, String status, WebElement ele) {
+		elementWait(ele);
 		String path = ele.getScreenshotAs(OutputType.BASE64);
 		if (status == "info") {
 			getExtentTest().log(Status.INFO, message,
@@ -188,8 +187,8 @@ public class Action extends Base {
 		}
 	}
 
-	public void reportLoggerwithFullPageScreenshot(WebDriver driver, String message, String status, WebElement ele) {
-		TakesScreenshot takesScreenshot = (TakesScreenshot) driver;
+	public void reportLoggerwithFullPageScreenshot( String message, String status, WebElement ele) {
+		TakesScreenshot takesScreenshot = (TakesScreenshot) getDriver();
 		String path = takesScreenshot.getScreenshotAs(OutputType.BASE64);
 		if (status == "info") {
 			getExtentTest().log(Status.INFO, message,

@@ -35,13 +35,14 @@ private static WriteExcel writeexcel;
 		{
 			Row row = sheet.getRow(i + 1);
 			Cell cell = row.getCell(0);
-			if (cell.getStringCellValue().toLowerCase().contains(TestCaseIdName))
+			if (cell.getStringCellValue().contains(TestCaseIdName))
 			{
 				int cols = row.getLastCellNum();
 				for (int j =0;j<cols;j++)
 				{
 					row = sheet.getRow(0);
 					cell = row.getCell(j);
+					System.out.println(cell.getStringCellValue());
 					if (cell.getStringCellValue().contains("Browser"))
 					{
 						row = sheet.getRow(i + 1);

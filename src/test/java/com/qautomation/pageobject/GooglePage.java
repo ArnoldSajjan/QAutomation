@@ -21,6 +21,6 @@ public class GooglePage extends Base{
 	public void Google(String value)
 	{
 		System.out.println(value);
-		action.type(getDriver(), search, value);
+		action.type(search, value);
 	}
 }

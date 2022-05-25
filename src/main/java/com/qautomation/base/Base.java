@@ -62,8 +62,8 @@ public class Base {
 		
 		}
 
-		action.implicitWait(getDriver(), 60);
-		action.pageLoadTimeOut(getDriver(), 60);
+		action.implicitWait(60);
+		action.pageLoadTimeOut(60);
 		getDriver().manage().window().maximize();
 		getDriver().manage().deleteAllCookies();
 		getDriver().get(prop.getProperty("url"));

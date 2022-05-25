@@ -48,12 +48,12 @@ public class ListenerClass extends Base implements ITestListener {
 		getExtentTest().fail("<details><summary><b><font color=red>Exception Occured, Click to see details:"
 				+ "</font></b></summary>" + expectionMessage.replaceAll(",", "<br>") + "</details>\n");
 		try {
-			writeexcel.updateExeclTestData(result.getMethod().getDataProviderMethod().getName().toLowerCase(), prop.getProperty("testername"),
+			writeexcel.updateExeclTestData(result.getMethod().getMethodName(), prop.getProperty("testername"),
 					prop.getProperty("browser"), "Failed", expectionMessage);
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		String path = action.takeScreenshot(getDriver(), result.getMethod().getMethodName());
+		String path = action.takeScreenshot(result.getMethod().getMethodName());
 		getExtentTest().fail("<b><font color=red>" + "Failed ScreenShot" + "</font></b>",
 				MediaEntityBuilder.createScreenCaptureFromPath(path).build());
 
@@ -62,7 +62,7 @@ public class ListenerClass extends Base implements ITestListener {
 	public void onTestSkipped(ITestResult result) {
 
 		try {
-			writeexcel.updateExeclTestData(result.getMethod().getDataProviderMethod().getName().toLowerCase(), prop.getProperty("testername"),
+			writeexcel.updateExeclTestData(result.getMethod().getMethodName(), prop.getProperty("testername"),
 					prop.getProperty("browser"), "Skipped", result.getMethod().getDescription() + " Skipped");
 		} catch (Exception e) {
 			System.out.println(e);
@@ -85,7 +85,7 @@ public class ListenerClass extends Base implements ITestListener {
 	public void onTestSuccess(ITestResult result) {
 
 		try {
-			writeexcel.updateExeclTestData(result.getMethod().getDataProviderMethod().getName().toLowerCase(), prop.getProperty("testername"),
+			writeexcel.updateExeclTestData(result.getMethod().getMethodName(), prop.getProperty("testername"),
 					prop.getProperty("browser"), "Passed", result.getMethod().getDescription() + " Passed");
 		} catch (Exception e) {
 			System.out.println(e);
@@ -93,7 +93,7 @@ public class ListenerClass extends Base implements ITestListener {
 		String logText = "<b> " + result.getMethod().getDescription() + " Passed</b>";
 		Markup markup = MarkupHelper.createLabel(logText, ExtentColor.GREEN);
 		getExtentTest().log(Status.PASS, markup);
-		String path = action.takeScreenshot(getDriver(), result.getMethod().getMethodName());
+		String path = action.takeScreenshot(result.getMethod().getMethodName());
 		getExtentTest().pass("<b><font color=green>" + "Passed ScreenShot" + "</font></b>",
 				MediaEntityBuilder.createScreenCaptureFromPath(path).build());
 
